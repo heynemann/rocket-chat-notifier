@@ -42,15 +42,15 @@ public class RocketChatNotifier extends RunListener<Run<?, ?>> implements Descri
         message.append("@all ");
       }
 
-      message.append("Build *");
+      message.append("Build *<a href=\"");
+      message.append(run.getUrl());
+      message.append("\" target=\"_blank\">");
       message.append(run.getFullDisplayName());
-      message.append("*: ");
+      message.append("</a>*: ");
       message.append(notifyText);
 
       chat(message.toString(), listener);
-
     }
-
   }
 
   private String getNotifyText(Run run) {
