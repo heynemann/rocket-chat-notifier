@@ -13,6 +13,7 @@ import hudson.model.TaskListener;
 import hudson.model.listeners.RunListener;
 import hudson.util.FormValidation;
 import jenkins.model.Jenkins;
+import jenkins.model.JenkinsLocationConfiguration;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
@@ -42,11 +43,14 @@ public class RocketChatNotifier extends RunListener<Run<?, ?>> implements Descri
         message.append("@all ");
       }
 
-      message.append("Build *<a href=\"");
-      message.append(run.getUrl());
-      message.append("\" target=\"_blank\">");
+      JenkinsLocationConfiguration jenkinsConfig = new JenkinsLocationConfiguration();
+      String url = jenkinsConfig.getUrl() + run.getUrl();
+
+      message.append("Build *[");
       message.append(run.getFullDisplayName());
-      message.append("</a>*: ");
+      message.append("](");
+      message.append(url);
+      message.append(")*: ");
       message.append(notifyText);
 
       chat(message.toString(), listener);
